@@ -1,17 +1,19 @@
 import { Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { AppLogger } from './logger/app.logger';
 
 @Controller('app')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Post(':id')
-  getHello(@Param('id') id: string) {
-    return this.appService.getHello(id);
+  @Get('hello')
+  async getHello(): Promise<string> {
+    return this.appService.getHello();
   }
   
-  @Get()
-  testRoute() {
-    return 'API funcionando en /app';
+  @Get('do-something')
+  async doSomething(): Promise<string> {
+    const logger = new AppLogger({ functionName: 'AppController.doSomething' });
+    return this.appService.doSomething(logger);
   }
 }
