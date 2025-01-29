@@ -5,11 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { ErrorLog } from './error-log/error-log.entity'
 import { ErrorLogService } from './error-log/error-log.service';
+import { ErrorLogModule } from './error-log/error-log.module'
 
 @Module({
   imports: [
+    ErrorLogModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env'
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -21,9 +24,9 @@ import { ErrorLogService } from './error-log/error-log.service';
         username: config.get('DB_USER'),
         password: config.get('DB_PASS'),
         database: config.get('DB_NAME'),
-        entities: [ErrorLog],
         autoLoadEntities: true,
         synchronize: true,
+        uuidExtension: null,
       }),
     }),
   ],

@@ -6,6 +6,6 @@ import { ErrorLogService } from './error-log.service';
 @Module({
   imports: [TypeOrmModule.forFeature([ErrorLog])],
   providers: [ErrorLogService],
-  exports: [ErrorLogService],
+  exports: [ErrorLogService, TypeOrmModule],
 })
 export class ErrorLogModule {}

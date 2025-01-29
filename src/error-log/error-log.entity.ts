@@ -14,7 +14,7 @@ export class ErrorLog {
   @Column('text')
   message: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'text', nullable: true })
   stack?: string;
 
   @CreateDateColumn()

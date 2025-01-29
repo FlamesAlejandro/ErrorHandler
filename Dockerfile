@@ -1,14 +1,20 @@
+# Usa la imagen base de Node.js
+FROM node:20
 
-FROM node:18-alpine
-
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+# Copia el archivo de dependencias
+COPY package*.json ./
 
-RUN npm install --only=production
+# Instala las dependencias
+RUN npm install
 
+# Copia el resto del código al contenedor
 COPY . .
 
+# Expon el puerto de la aplicación
 EXPOSE 3000
 
-CMD ["npm", "run", "start:prod"]
+# Comando para ejecutar la aplicación
+CMD ["npm", "run", "start:dev"]
