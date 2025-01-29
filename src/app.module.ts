@@ -3,6 +3,8 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ErrorLog } from './error-log/error-log.entity'
+import { ErrorLogService } from './error-log/error-log.service';
 
 @Module({
   imports: [
@@ -19,12 +21,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
         username: config.get('DB_USER'),
         password: config.get('DB_PASS'),
         database: config.get('DB_NAME'),
+        entities: [ErrorLog],
         autoLoadEntities: true,
         synchronize: true,
       }),
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ErrorLogService],
 })
 export class AppModule {}
