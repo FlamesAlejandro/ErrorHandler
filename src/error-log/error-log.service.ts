@@ -10,13 +10,17 @@ export class ErrorLogService {
     private readonly errorLogRepository: Repository<ErrorLog>,
   ) {}
 
-  async logError(service: string, method: string, error: any) {
-    const errorLog = this.errorLogRepository.create({
-      service,
-      method,
-      message: error.message || 'Unknown error',
-      stack: error.stack || null,
-    })
-    await this.errorLogRepository.save(errorLog)
+  async findAll(filters: { service?: string; severity?: string }) {
+    const queryBuilder = this.errorLogRepository.createQueryBuilder('errorLog');
+
+    if (filters.service) {
+      queryBuilder.andWhere('errorLog.service = :service', { service: filters.service });
+    }
+
+    if (filters.severity) {
+      queryBuilder.andWhere('errorLog.severity = :severity', { severity: filters.severity });
+    }
+
+    return queryBuilder.getMany();
   }
 }
