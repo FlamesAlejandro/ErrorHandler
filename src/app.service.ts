@@ -8,10 +8,9 @@ import { Severity } from './common/enums/severity.enum';
 export class AppService {
   constructor(private readonly errorLogService: ErrorLogService) {}
   async getHello(): Promise<string> {
-    // Usamos AppLogger directamente
-    const logger = new AppLogger({ functionName: 'getHello' });
+    const logger = new AppLogger({ functionName: 'getHello' }, this.errorLogService);
     logger.add({ action: 'fetchGreeting', message: 'Fetching greeting', severity: Severity.INFO, service: 'AppService' });
-    logger.print();
+    await logger.print();
 
     return 'Hello World!';
   }

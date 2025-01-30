@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Severity } from '../common/enums/severity.enum';
 
-@Entity()
+@Entity('error_log')
 export class ErrorLog {
   @PrimaryGeneratedColumn()
   id: number;
@@ -8,15 +9,18 @@ export class ErrorLog {
   @Column()
   service: string;
 
-  @Column()
-  method: string;
+  @Column({
+    type: 'enum',
+    enum: Severity,
+  })
+  severity: Severity;
 
-  @Column('text')
+  @Column()
   message: string;
 
   @Column({ type: 'text', nullable: true })
-  stack?: string;
+  detail: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  timestamp: Date;
 }
